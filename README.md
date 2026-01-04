@@ -14,13 +14,10 @@ conda activate flexkip
 
 We conduct experiments on the MIMIC-CXR dataset, a large-scale chest X-ray dataset
 released by the MIT Laboratory for Computational Physiology.
-
 Due to data usage restrictions, we do not redistribute the dataset.
 Researchers must obtain credentialed access via PhysioNet.
-
 Dataset URL:
 https://physionet.org/content/mimic-cxr-jpg/
-
 After downloading the data, users should organize the files according to the
 structure described in this repository.
 ```
