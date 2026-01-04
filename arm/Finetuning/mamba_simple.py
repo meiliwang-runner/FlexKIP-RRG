@@ -193,7 +193,7 @@ class Mamba(nn.Module):
             self.D_b = nn.Parameter(torch.ones(self.d_inner, device=device))  # Keep in fp32
             self.D_b._no_weight_decay = True
 
-            #竖着scan
+            
             A_c = repeat(
                 torch.arange(1, self.d_state + 1, dtype=torch.float32, device=device),
                 "n -> d n",
@@ -221,7 +221,7 @@ class Mamba(nn.Module):
             self.D_c = nn.Parameter(torch.ones(self.d_inner, device=device))  # Keep in fp32
             self.D_c._no_weight_decay = True
 
-            # 竖着scan 反向scan
+            
             A_c_b = repeat(
                 torch.arange(1, self.d_state + 1, dtype=torch.float32, device=device),
                 "n -> d n",
@@ -276,7 +276,7 @@ class Mamba(nn.Module):
             self.D_b = nn.Parameter(torch.ones(self.d_inner, device=device))  # Keep in fp32
             self.D_b._no_weight_decay = True
 
-            #竖着scan
+           
             A_c = repeat(
                 torch.arange(1, self.d_state + 1, dtype=torch.float32, device=device),
                 "n -> d n",
@@ -304,7 +304,7 @@ class Mamba(nn.Module):
             self.D_c = nn.Parameter(torch.ones(self.d_inner, device=device))  # Keep in fp32
             self.D_c._no_weight_decay = True
 
-            # 竖着scan 反向scan
+            
             A_c_b = repeat(
                 torch.arange(1, self.d_state + 1, dtype=torch.float32, device=device),
                 "n -> d n",
@@ -332,7 +332,7 @@ class Mamba(nn.Module):
             self.D_c_b = nn.Parameter(torch.ones(self.d_inner, device=device))  # Keep in fp32
             self.D_c_b._no_weight_decay = True
 
-            # 沿着骨头scan
+           
             A_d = repeat(
                 torch.arange(1, self.d_state + 1, dtype=torch.float32, device=device),
                 "n -> d n",
@@ -360,7 +360,7 @@ class Mamba(nn.Module):
             self.D_d = nn.Parameter(torch.ones(self.d_inner, device=device))  # Keep in fp32
             self.D_d._no_weight_decay = True
 
-            # 反向scan
+            
             A_d_b = repeat(
                 torch.arange(1, self.d_state + 1, dtype=torch.float32, device=device),
                 "n -> d n",
@@ -509,16 +509,7 @@ class Mamba(nn.Module):
                     delta_bias=self.dt_proj_c_b.bias.float(),
                     delta_softplus=True,
                 )
-                #print(xz.mean(), out.mean(), out_b.mean(), out_c.mean(), out_c_b.mean())
-                # if torch.isinf(out.mean()) or torch.isnan(out.mean()):
-                #     out = out_b.flip([-1])
-                # if torch.isinf(out_b.mean()) or torch.isnan(out_b.mean()):
-                #     out_b = out.flip([-1])
-                # if torch.isinf(out_c.mean()) or torch.isnan(out_c.mean()):
-                #     out_c = out_c_b.flip([-1])
-                # if torch.isinf(out_c_b.mean()) or torch.isnan(out_c_b.mean()):
-                #     out_c_b = out_c.flip([-1])
-                # print(xz.mean(), out.mean(), out_b.mean(), out_c.mean(), out_c_b.mean())
+                
                 out_c = out_c + out_c_b.flip([-1])
                 cls, out_c = (out_c[:, :, token_position:token_position + 1],
                            torch.cat([out_c[:, :, :token_position], out_c[:, :, token_position + 1:]], dim=-1))
@@ -597,10 +588,10 @@ class Mamba(nn.Module):
                     delta_softplus=True,
                 )
 
-                # 沿着骨骼scan
+                
                 A_d = -torch.exp(self.A_d_log.float())
                 out_d = mamba_inner_fn_no_out_proj(
-                    xd,  # 修改成我们要的特征
+                    xd,  
                     self.conv1d_d.weight,
                     self.conv1d_d.bias,
                     self.x_proj_d.weight,
@@ -615,7 +606,7 @@ class Mamba(nn.Module):
 
                 A_d_b = -torch.exp(self.A_d_b_log.float())
                 out_d_b = mamba_inner_fn_no_out_proj(
-                    xd.flip([-1]),  # 修改成我们要的特征
+                    xd.flip([-1]),  
                     self.conv1d_d_b.weight,
                     self.conv1d_d_b.bias,
                     self.x_proj_d_b.weight,
