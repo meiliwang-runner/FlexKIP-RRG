@@ -38,6 +38,11 @@ data
   }
 ...
 ]
-promote
 
+promote
+├── boxes
+├── feature_boxes_flat
+└── sip_features [Tensor]
 ```
+
+
