@@ -48,7 +48,7 @@ parser.add_argument('--delta_file', type=str, default=None, help='the delta file
 parser.add_argument('--weights', type=list, default=[0.8, 0.2])
 parser.add_argument('--scorer_types', type=list, default=['Bleu_4', 'CIDEr'])
 # parser.add_argument('--scorer_types', type=list, default=['Bleu_4'])
-parser.add_argument("--contrastive_loss_weight", type=float, default=0.1, help="Weight for contrastive loss")#对比学习超参数
+parser.add_argument("--contrastive_loss_weight", type=float, default=0.1, help="Weight for contrastive loss")
 
 # ========================= Learning Configs ==========================
 parser.add_argument('--optimizer', default='adam', type=str, help='initial learning rate')
@@ -84,3 +84,4 @@ parser.add_argument('--every_n_train_steps', type=int, default=0, help='How many
 parser.add_argument('--val_check_interval', type=float, default=1.0, help='How often to check the validation set')
 parser.add_argument('--accumulate_grad_batches', type=int, default=1, help='Accumulates gradients over k batches before stepping the optimizer')
 parser.add_argument("--num_sanity_val_steps", type=int, default=2, help='Sanity check runs n validation batches before starting the training routine')
+
